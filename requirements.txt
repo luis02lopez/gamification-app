@@ -1,0 +1,9 @@
+asgiref==3.5.0
+binarytree==6.3.0
+Django==4.0.2
+graphviz==0.17
+packaging==21.2
+pyparsing==2.4.7
+setuptools-scm==6.3.2
+sqlparse==0.4.2
+tomli==1.2.2
