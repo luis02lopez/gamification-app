@@ -7,3 +7,6 @@ pyparsing==2.4.7
 setuptools-scm==6.3.2
 sqlparse==0.4.2
 tomli==1.2.2
+django_extensions
+pydotplus
+psycopg2

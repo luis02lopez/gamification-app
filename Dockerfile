@@ -1,8 +1,11 @@
 FROM python:3.9
 
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        postgresql-client \
+        postgresql-client graphviz \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
