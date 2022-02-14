@@ -3,6 +3,8 @@ version: "3.9"
 services:
   db:
     image: postgres
+    ports:
+      - "5432:5432"
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:
@@ -21,5 +23,6 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_HOST=db
+    restart: always
     depends_on:
       - db
