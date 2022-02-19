@@ -11,4 +11,8 @@ echo "Apply database migrations"
 python manage.py migrate
 python manage.py migrate app
 
+
+#Superuser
+python manage.py createsuperuser --username=admin --email=l_y02@hotmail.com --no-input
+
 exec "$@"
