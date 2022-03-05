@@ -13,6 +13,8 @@ python manage.py migrate app
 
 
 #Superuser
-python manage.py createsuperuser --username=admin --email=l_y02@hotmail.com --no-input
+if $DJANGO_CREATE_SUPERUSER; then
+    python manage.py createsuperuser --email=llopez25@cuc.edu.co --no-input
+fi
 
 exec "$@"

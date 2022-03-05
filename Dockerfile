@@ -2,10 +2,6 @@ FROM python:3.9
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-#remove
-ENV DJANGO_SUPERUSER_PASSWORD="123456"
-ENV DJANGO_SUPERUSER_USERNAME="admin"
-ENV DJANGO_SUPERUSER_EMAIL="l_y02@hotmail.com"
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \

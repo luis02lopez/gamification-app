@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<p>User: {{ user.get_username }}</p>
+{% else %}
+<div class="row">
+   <div class="col s4 m4">
+      <div class="icon-block">
+         <h2 class="center indigo-text"><i class="material-icons">mood</i></h2>
+         <h5 class="center">Fun and Interactive</h5>
+         <p class="light">Regardless of your audience or subject matter, the gamification of learning can help you to create exciting, educational, and entertaining content.</p>
+      </div>
+   </div>
+   <div class="col s4 m4">
+      <div class="icon-block">
+         <h2 class="center indigo-text"><i class="material-icons">group</i></h2>
+         <h5 class="center">Engagement in classrooms</h5>
+         <p class="light">The researchers have found that the game-like atmosphere was favorable in the classroom and increased productivity.</p>
+      </div>
+   </div>
+   <div class="col s4 m4">
+      <div class="icon-block">
+         <h2 class="center indigo-text"><i class="material-icons">flash_on</i></h2>
+         <h5 class="center">Improved knowledge absorption and retention</h5>
+         <p class="light">Gamification can improve knowledge absorption and boost knowledge retention by blending endorphins and the awareness of real world benefits.</p>
+      </div>
+   </div>
+</div>
+{% endif %} 
+
+
+
+{% endblock %}
