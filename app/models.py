@@ -19,6 +19,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    objects =  UserManager()
 
 class Course(models.Model):
     id = models.CharField(max_length=60, primary_key=True)
@@ -33,6 +34,7 @@ class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    objects =  UserManager()
 
 class Wallet(models.Model):
     owner = models.OneToOneField(Student, on_delete=models.CASCADE)
