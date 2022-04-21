@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+Courses
+<div class="row">
+  <ul class="collection">
+    {% for student in dataset %}
+    <li class="collection-item avatar">
+      <span class="title">{{ student.name }}</span>
+      <p>{{ student.id }}</p>
+      <form class="secondary-content" action="#" method="post">
+        {% csrf_token %}
+        <input hidden type="text" value={{ student.id }} name="student_to_join"/>
+        <input type="submit" class="btn waves-effect waves-light btn-small" value=Join>
+       </form>
+    </li>
+    {% endfor %}
+  </ul>
+ </div>
+
+{% endblock %}

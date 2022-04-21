@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.forms.fields import EmailField  
 from django.forms.forms import Form  
 from django import forms  
-from .models import User, Student
+from .models import User, Student, Teacher, Course, Company, Wallet, Reward, Basket
 
 
 class UserCreationForm(UserCreationForm):
@@ -47,7 +47,23 @@ class CustomUserCreationForm(UserCreationForm):
             full_name=self.cleaned_data['full_name'], 
             password=self.cleaned_data['password1']  
         )
+        username = self.cleaned_data['email'].lower()
         student = Student.objects.create_user( 
-            self.cleaned_data['email']
+            email=username,
+            password=self.cleaned_data['password1'] 
         )
         return user 
+
+class CreateCourse(forms.ModelForm):
+ 
+    # create meta class
+    class Meta:
+        # specify model to be used
+        model = Course
+ 
+        # specify fields to be used
+        fields = [
+            "id",
+            "name",
+            "teacher",
+        ]

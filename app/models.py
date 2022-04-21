@@ -32,9 +32,14 @@ class Company(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, blank=True, null=True)
     objects =  UserManager()
+
+class Student_Course(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    is_accepted = models.BooleanField(blank=True)
 
 class Wallet(models.Model):
     owner = models.OneToOneField(Student, on_delete=models.CASCADE)

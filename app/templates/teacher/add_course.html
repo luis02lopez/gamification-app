@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col s6 offset-s3">
+      <form method="post">
+        {% csrf_token %}
+        <table>
+            {{ form.as_p }}
+        </table>
+        <div class="row center-align" style="margin-top: 5%;">
+          <input class="waves-effect waves-light btn" type="submit" value="Create" />
+          <input type="hidden" name="next" value="{{ next }}" /> 
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    M.AutoInit();
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('select');
+      var instances = M.FormSelect.init(elems, options);
+    });
+  </script>
+
+{% endblock %}

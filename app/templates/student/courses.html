@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+    {% for course in dataset %}
+    <div class="col s4 m4">
+      <div class="card">
+         <div class="card-image">
+           <img class="responsive-img" src="https://source.unsplash.com/E813FON0wDQ/640x480">
+           <a href="#" class="btn-floating halfway-fab waves-effect waves-light blue"><i class="material-icons">chevron_right</i></a>
+         </div>
+         <div class="card-content">
+            <p>ID: {{ course.id }}</p>
+            <p>{{ course.name }}</p>
+         </div>
+      </div>
+    </div>
+    {% endfor %}
+ </div>
+
+{% endblock %}
