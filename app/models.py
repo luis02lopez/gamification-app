@@ -37,9 +37,9 @@ class Student(models.Model):
     objects =  UserManager()
 
 class Student_Course(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    is_accepted = models.BooleanField(blank=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
+    is_accepted = models.BooleanField(blank=True, null=True)
 
 class Wallet(models.Model):
     owner = models.OneToOneField(Student, on_delete=models.CASCADE)

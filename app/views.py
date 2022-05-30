@@ -49,13 +49,35 @@ def student(request):
 def student_list_courses_to_join(request):
     user = request.user
     context ={}
-    context["dataset"] = Course.objects.all()
+    context["dataset"] = Course.objects.raw('SELECT * FROM public.app_course as course FULL JOIN public.app_student_course as student_course on course.id = student_course.course_id')
     if(request.POST.get('course_to_join')):
         student = Student.objects.get(user_id = user.get_username())
         course = Course.objects.get(id = request.POST.get('course_to_join'))
         student_course = Student_Course(student=student, course=course, is_accepted=False)
         student_course.save()
     return render(request, 'student/list_courses_to_join.html', context)
+
+@login_required
+def student_manage_courses(request):
+    user = request.user
+    username = user.get_username()
+    context ={}
+    context["dataset"] = Course.objects.filter(student_course__student = username, student_course__is_accepted = True)
+    return render(request, 'student/manage_courses.html', context)
+
+@login_required
+def student_manage_course(request, course):
+    user = request.user
+    username = user.get_username()
+    context ={}
+    context["dataset"] = Student_Course.objects.all().filter(course_id=course)
+    if(request.POST.get('student_to_join')):
+        student = Student.objects.get(user_id = request.POST.get('student_to_join'))
+        course = Course.objects.get(id = course)
+        student_course = Student_Course.objects.get(student=student, course=course, is_accepted=False)
+        student_course.is_accepted = True
+        student_course.save()
+    return render(request, 'student/manage_course.html', context)
 
 @login_required
 def add_course(request):
@@ -73,7 +95,7 @@ def add_course(request):
     return render(request, "teacher/add_course.html", context)
 
 @login_required
-def manage_courses(request):
+def teacher_manage_courses(request):
     user = request.user
     username = user.get_username()
     context ={}
@@ -81,12 +103,18 @@ def manage_courses(request):
     return render(request, 'teacher/manage_courses.html', context)
 
 @login_required
-def manage_courses(request):
+def teacher_manage_course(request, course):
     user = request.user
     username = user.get_username()
     context ={}
-    context["dataset"] = Course.objects.all()
-    return render(request, 'teacher/manage_courses.html', context)
+    context["dataset"] = Student_Course.objects.all().filter(course_id=course)
+    if(request.POST.get('student_to_join')):
+        student = Student.objects.get(user_id = request.POST.get('student_to_join'))
+        course = Course.objects.get(id = course)
+        student_course = Student_Course.objects.get(student=student, course=course, is_accepted=False)
+        student_course.is_accepted = True
+        student_course.save()
+    return render(request, 'teacher/manage_course.html', context)
 
 class SignUpView(generic.CreateView):
     form_class = CustomUserCreationForm

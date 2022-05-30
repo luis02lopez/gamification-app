@@ -1,22 +1,118 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <div class="row">
-    {% for course in dataset %}
-    <div class="col s4 m4">
-      <div class="card">
-         <div class="card-image">
-           <img class="responsive-img" src="https://source.unsplash.com/1-aA2Fadydc/640x480">
-           <a href="#" class="btn-floating halfway-fab waves-effect waves-light blue"><i class="material-icons">chevron_right</i></a>
+   <div class="col s12">
+      <ul class="tabs">
+         <li class="tab col s6"><a class="active" href="#students">Students</a></li>
+         <li class="tab col s6"><a href="#companies">companies</a></li>
+      </ul>
+   </div>
+<br>
+<br>
+<br>
+<div id="students">
+   Students
+  <ul class="collection">
+    {% for student_course in dataset %}
+    <li class="collection-item avatar">
+      <span class="title">{{ student_course.student_id }}</span>
+      <!-- <p>{{ student_course.student_id }}</p> -->
+         {% if student_course.is_accepted %}
+         <div class="secondary-content row">
+            <div class="col s3">
+               500 points
+            </div>
+            <div class="col s3">
+               <form action="#" method="post">
+                  {% csrf_token %}
+                  <input hidden type="text" value={{ student_course.student_id }} name="student_to_add_points"/>
+                  <input type="submit" class="btn waves-effect waves-light btn-small" value="Add Points">
+               </form>
+            </div>
+            <div class="col s3">
+               <form action="#" method="post">
+                  {% csrf_token %}
+                  <input hidden type="text" value={{ student_course.student_id }} name="student_to_add_badge"/>
+                  <input type="submit" class="btn waves-effect waves-light btn-small" value="Add Badge">
+               </form>
+            </div>
+            <div class="col s3">
+               <form action="#" method="post">
+                  {% csrf_token %}
+                  <input hidden type="text" value={{ student_course.student_id }} name="student_to_add_badge"/>
+                  <input type="submit" class="btn waves-effect waves-light btn-small disabled" value="Requests">
+               </form>
+            </div>
          </div>
-         <div class="card-content">
-            <p>ID: {{ course.id }}</p>
-            <p>{{ course.name }}</p>
-         </div>
-      </div>
-    </div>
+         {% else %}
+            <form class="secondary-content" action="#" method="post">
+               {% csrf_token %}
+               <input hidden type="text" value={{ student_course.student_id }} name="student_to_join"/>
+               <input type="submit" class="btn waves-effect waves-light btn-small" value=Accept>
+            </form>
+         {% endif %}
+    </li>
     {% endfor %}
+  </ul>
+  </div>
+  <div id="companies">
+     Companies
+      <ul class="collection">
+         <li class="collection-item avatar">
+         <span class="title">Company 1</span>
+         <!-- <p>{{ student_course.student_id }}</p> -->
+            <div class="secondary-content row">
+               <div class="col s4">
+                  500 points
+               </div>
+               <div class="col s4">
+                  <form action="#" method="post">
+                     {% csrf_token %}
+                     <input hidden type="text" value={{ student_course.student_id }} name="student_to_add_points"/>
+                     <input type="submit" class="btn waves-effect waves-light btn-small" value="Add Points">
+                  </form>
+               </div>
+               <div class="col s4">
+                  <form action="#" method="post">
+                     {% csrf_token %}
+                     <input hidden type="text" value={{ student_course.student_id }} name="student_to_add_badge"/>
+                     <input type="submit" class="btn waves-effect waves-light btn-small" value="Add Badge">
+                  </form>
+               </div>
+            </div>
+         </li>
+         <li class="collection-item avatar">
+            <span class="title">Company 2</span>
+            <!-- <p>{{ student_course.student_id }}</p> -->
+               <div class="secondary-content row">
+                  <div class="col s6">
+                     <form action="#" method="post">
+                        {% csrf_token %}
+                        <input hidden type="text" value={{ student_course.student_id }} name="student_to_add_points"/>
+                        <input type="submit" class="btn waves-effect waves-light btn-small" value="Add Points">
+                     </form>
+                  </div>
+                  <div class="col s6">
+                     <form action="#" method="post">
+                        {% csrf_token %}
+                        <input hidden type="text" value={{ student_course.student_id }} name="student_to_add_badge"/>
+                        <input type="submit" class="btn waves-effect waves-light btn-small" value="Add Badge">
+                     </form>
+                  </div>
+               </div>
+            </li>
+      </ul>
+  </div>
  </div>
+
+ <script>
+   M.AutoInit();
+   var instance = M.Tabs.init(el, options);
+   document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems, options);
+   });
+ </script>
 
 {% endblock %}
