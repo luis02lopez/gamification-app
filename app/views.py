@@ -1,4 +1,5 @@
 from contextlib import nullcontext
+from unicodedata import name
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as log_out
@@ -150,6 +151,46 @@ def teacher_manage_course(request, course):
         student_course.is_accepted = True
         student_course.save()
     return render(request, 'teacher/manage_course.html', context)
+
+@login_required
+def teacher_manage_awards(request):
+    user = request.user
+    username = user.get_username()
+    context ={}
+    context["awards"] = Award.objects.all()
+    if(request.POST.get('create_award_name')):
+        award = Award(name = request.POST.get('create_award_name'), points = request.POST.get('create_award_points'))
+        award.save()
+        return redirect(teacher_manage_awards)
+    if(request.POST.get('edit_award_id')):
+        award = Award(id = request.POST.get('edit_award_id'), name = request.POST.get('edit_award_name'), points = request.POST.get('edit_award_points'))
+        award.save()
+        return redirect(teacher_manage_awards)
+    if(request.POST.get('delete_award_id')):
+        award = Award.objects.get(id = request.POST.get('delete_award_id'))
+        award.delete()
+        return redirect(teacher_manage_awards)
+    return render(request, 'teacher/manage_awards.html', context)
+
+@login_required
+def teacher_manage_prizes(request):
+    user = request.user
+    username = user.get_username()
+    context ={}
+    context["prizes"] = Prize.objects.all()
+    if(request.POST.get('create_prize_name')):
+        prize = Prize(name = request.POST.get('create_prize_name'), price = request.POST.get('create_prize_price'))
+        prize.save()
+        return redirect(teacher_manage_prizes)
+    if(request.POST.get('edit_prize_id')):
+        prize = Prize(id = request.POST.get('edit_prize_id'), name = request.POST.get('edit_prize_name'), price = request.POST.get('edit_prize_price'))
+        prize.save()
+        return redirect(teacher_manage_prizes)
+    if(request.POST.get('delete_prize_id')):
+        prize = Prize.objects.get(id = request.POST.get('delete_prize_id'))
+        prize.delete()
+        return redirect(teacher_manage_prizes)
+    return render(request, 'teacher/manage_prizes.html', context)
 
 class SignUpView(generic.CreateView):
     form_class = CustomUserCreationForm

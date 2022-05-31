@@ -46,15 +46,15 @@ class Student_Company(models.Model):
 
 class Wallet(models.Model):
     owner = models.OneToOneField(Student, on_delete=models.CASCADE)
-    points = models.IntegerField
+    points = models.IntegerField(blank=True, null=True)
 
 class Award(models.Model):
     name = models.CharField(max_length=60)
-    points = models.IntegerField
+    points = models.IntegerField(blank=True, null=True)
 
 class Prize(models.Model):
     name = models.CharField(max_length=60)
-    price = models.IntegerField
+    price = models.IntegerField(blank=True, null=True)
 
 class Bucket(models.Model):
     owner = models.ForeignKey(Student, on_delete=models.CASCADE)

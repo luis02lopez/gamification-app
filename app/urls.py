@@ -30,6 +30,8 @@ urlpatterns = [
     path('teacher/add-course', views.add_course),
     path('teacher/manage-courses', views.teacher_manage_courses),
     path('teacher/manage-course/<str:course>/', views.teacher_manage_course),
+    path('teacher/manage-awards', views.teacher_manage_awards),
+    path('teacher/manage-prizes', views.teacher_manage_prizes),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('signup/', SignUpView.as_view(), name='signup'),
