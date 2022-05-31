@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if company == None %}
+   <div style="position: relative; padding-bottom: 5%;">
+      <div style="margin: 0; position: absolute; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%);">
+         No perteneces a ninguna empresa en este curso.
+      </div>
+   </div>
+
+   <div class="row">
+      <div class="col s12 m6">
+         <div class="card">
+            <div class="card-image">
+            <img class="responsive-img" src="https://source.unsplash.com/OQMZwNd3ThU/640x480">
+            <a href="/student/manage-company/{{ course }}/create" class="btn-floating halfway-fab waves-effect waves-light blue"><i class="material-icons">chevron_right</i></a>
+            </div>
+            <div class="card-content">
+               Crear empresa
+            </div>
+         </div>
+      </div>
+      <div class="col s12 m6">
+         <div class="card">
+            <div class="card-image">
+            <img class="responsive-img" src="https://source.unsplash.com/QckxruozjRg/640x480">
+            <a href="/student/manage-rewards/{{ course }}" class="btn-floating halfway-fab waves-effect waves-light blue"><i class="material-icons">chevron_right</i></a>
+            </div>
+            <div class="card-content">
+               Unirse a empresa
+            </div>
+         </div>
+      </div>
+   </div>
+{% else %}
+Miembros
+   <div class="row">
+   <ul class="collection">
+      {% for student in company %}
+      <li class="collection-item avatar">
+         <span class="title">{{ student.student_id }}</span>
+            {% if student.is_accepted %}
+            <div class="secondary-content row">
+               <div class="col s12">
+                  <form action="#" method="post">
+                     {% csrf_token %}
+                     <input hidden type="text" value={{ student.student_id }} name="member_to_remove"/>
+                     <input type="submit" class="btn waves-effect waves-light btn-small red" value="Remove">
+                  </form>
+               </div>
+            </div>
+            {% else %}
+               <form class="secondary-content" action="#" method="post">
+                  {% csrf_token %}
+                  <input hidden type="text" value={{ student.student_id }} name="member_to_join"/>
+                  <input type="submit" class="btn waves-effect waves-light btn-small" value=Accept>
+               </form>
+            {% endif %}
+      </li>
+      {% endfor %}
+   </ul>
+   </div>
+
+   <script>
+      M.AutoInit();
+      var instance = M.Tabs.init(el, options);
+      document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.modal');
+      var instances = M.Modal.init(elems, options);
+      });
+   </script>
+
+{% endif %}
+
+{% endblock %}

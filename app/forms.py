@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.forms.fields import EmailField  
 from django.forms.forms import Form  
 from django import forms  
-from .models import User, Student, Teacher, Course, Company, Wallet, Reward, Basket
+from .models import User, Student, Teacher, Course, Company
 
 
 class UserCreationForm(UserCreationForm):
@@ -66,4 +66,17 @@ class CreateCourse(forms.ModelForm):
             "id",
             "name",
             "teacher",
+        ]
+
+class CreateCompany(forms.ModelForm):
+ 
+    # create meta class
+    class Meta:
+        # specify model to be used
+        model = Company
+ 
+        # specify fields to be used
+        fields = [
+            "name",
+            "course"
         ]

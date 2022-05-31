@@ -21,6 +21,10 @@ class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     objects =  UserManager()
 
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    objects =  UserManager()
+
 class Course(models.Model):
     id = models.CharField(max_length=60, primary_key=True)
     name = models.CharField(max_length=60)
@@ -30,25 +34,29 @@ class Company(models.Model):
     name = models.CharField(max_length=120)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
-class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, blank=True, null=True)
-    objects =  UserManager()
-
 class Student_Course(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     is_accepted = models.BooleanField(blank=True, null=True)
 
+class Student_Company(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
+    is_accepted = models.BooleanField(blank=True, null=True)
+
 class Wallet(models.Model):
     owner = models.OneToOneField(Student, on_delete=models.CASCADE)
-    amount = models.IntegerField
+    points = models.IntegerField
 
-class Reward(models.Model):
+class Award(models.Model):
+    name = models.CharField(max_length=60)
+    points = models.IntegerField
+
+class Prize(models.Model):
     name = models.CharField(max_length=60)
     price = models.IntegerField
 
-class Basket(models.Model):
+class Bucket(models.Model):
     owner = models.ForeignKey(Student, on_delete=models.CASCADE)
-    rewards = models.ManyToManyField(Reward)
+    prize = models.ForeignKey(Prize, on_delete=models.CASCADE, null=True)
+    is_approved = models.BooleanField(blank=True, null=True)

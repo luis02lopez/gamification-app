@@ -25,6 +25,8 @@ urlpatterns = [
     path('student/list-courses-to-join', views.student_list_courses_to_join),
     path('student/manage-courses', views.student_manage_courses),
     path('student/manage-course/<str:course>/', views.student_manage_course),
+    path('student/manage-company/<str:course>/', views.student_manage_company),
+    path('student/manage-company/<str:course>/create', views.student_create_company),
     path('teacher/add-course', views.add_course),
     path('teacher/manage-courses', views.teacher_manage_courses),
     path('teacher/manage-course/<str:course>/', views.teacher_manage_course),

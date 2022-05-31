@@ -4,10 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as log_out
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
-from .forms import CustomUserCreationForm, CreateCourse
+from .forms import CustomUserCreationForm, CreateCourse, CreateCompany
 from django.urls import reverse_lazy
 from django.views import generic
-from .models import Student, Teacher, Course, Company, Wallet, Reward, Basket, Student_Course
+from .models import Student, Teacher, Course, Company, Wallet, Award, Prize, Bucket, Student_Course, Student_Company
 
 import json
 
@@ -70,7 +70,7 @@ def student_manage_course(request, course):
     user = request.user
     username = user.get_username()
     context ={}
-    context["dataset"] = Student_Course.objects.all().filter(course_id=course)
+    context["course"] = Course.objects.get(id = course)
     if(request.POST.get('student_to_join')):
         student = Student.objects.get(user_id = request.POST.get('student_to_join'))
         course = Course.objects.get(id = course)
@@ -78,6 +78,41 @@ def student_manage_course(request, course):
         student_course.is_accepted = True
         student_course.save()
     return render(request, 'student/manage_course.html', context)
+
+@login_required
+def student_manage_company(request, course):
+    user = request.user
+    username = user.get_username()
+    context ={}
+    try:
+        context["company"] = Student_Company.objects.raw('SELECT * FROM public.app_company INNER JOIN public.app_student_company ON public.app_company.id = public.app_student_company.company_id')
+        context["company"][0]
+    except:
+        context["company"] = None
+    context["course"] = course
+    if(request.POST.get('member_to_remove')):
+        student = Student.objects.get(user_id = request.POST.get('member_to_remove'))
+        student_company = Student_Company.objects.get(student=student)
+        student_company.delete()
+        return redirect(student_manage_company, course)
+    return render(request, 'student/manage_company.html', context)
+
+@login_required
+def student_create_company(request, course):
+    user = request.user
+    username = user.get_username()
+    context ={}
+    context["course"] = course
+    form = CreateCompany(request.POST or None)
+    if form.is_valid():
+        company = form.save()
+        student = Student.objects.get(user_id = username)
+        company = Company.objects.get(id = company.id)
+        student_company = Student_Company(student=student, company=company, is_accepted = True)
+        student_company.save()
+        return redirect(student_manage_company, course)
+    context['form']= form
+    return render(request, 'student/create_company.html', context)
 
 @login_required
 def add_course(request):
@@ -89,7 +124,7 @@ def add_course(request):
     form = CreateCourse(request.POST or None)
     if form.is_valid():
         form.save()
-        return redirect(manage_courses)
+        return redirect(teacher_manage_courses)
          
     context['form']= form
     return render(request, "teacher/add_course.html", context)
