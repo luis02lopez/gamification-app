@@ -46,6 +46,7 @@ class Student_Company(models.Model):
 
 class Wallet(models.Model):
     owner = models.OneToOneField(Student, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     points = models.IntegerField(blank=True, null=True)
 
 class Award(models.Model):
